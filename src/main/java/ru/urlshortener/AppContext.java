@@ -1,4 +1,3 @@
-
 package ru.urlshortener;
 
 import ru.urlshortener.config.AppConfig;
@@ -16,82 +15,73 @@ import ru.urlshortener.util.LinkGenerator;
 
 public class AppContext {
 
-    private final AppConfig config;
+  private final AppConfig config;
 
-    private final UserRepository userRepository;
-    private final LinkRepository linkRepository;
+  private final UserRepository userRepository;
+  private final LinkRepository linkRepository;
 
-    private final UserService userService;
-    private final LinkService linkService;
-    private final SessionService sessionService;
-    private final StorageService storageService;
-    private final LinkCleanupService linkCleanupService;
+  private final UserService userService;
+  private final LinkService linkService;
+  private final SessionService sessionService;
+  private final StorageService storageService;
+  private final LinkCleanupService linkCleanupService;
 
-    private final BrowserUtil browserUtil;
+  private final BrowserUtil browserUtil;
 
-    public AppContext() {
-        config = AppConfig.load();
+  public AppContext() {
+    config = AppConfig.load();
 
-        userRepository = new UserRepository();
-        linkRepository = new LinkRepository();
+    userRepository = new UserRepository();
+    linkRepository = new LinkRepository();
 
-        userService = new UserService(userRepository);
+    userService = new UserService(userRepository);
 
-        linkService = new LinkService(
-                linkRepository,
-                userRepository,
-                new LinkGenerator(config.getCodeLength()),
-                config
-        );
+    linkService =
+        new LinkService(
+            linkRepository, userRepository, new LinkGenerator(config.getCodeLength()), config);
 
-        sessionService = new SessionService(userService);
+    sessionService = new SessionService(userService);
 
-        storageService = new StorageService(
-                new FileStorage(config.getStoragePath()),
-                userRepository,
-                linkRepository
-        );
+    storageService =
+        new StorageService(
+            new FileStorage(config.getStoragePath()), userRepository, linkRepository);
 
-        browserUtil = new BrowserUtil();
+    browserUtil = new BrowserUtil();
 
-        NotificationService notificationService =
-                new NotificationService();
+    NotificationService notificationService = new NotificationService();
 
-        linkCleanupService = new LinkCleanupService(
-                linkService,
-                storageService,
-                notificationService,
-                config.getCleanupIntervalSeconds()
-        );
+    linkCleanupService =
+        new LinkCleanupService(
+            linkService, storageService, notificationService, config.getCleanupIntervalSeconds());
 
-        storageService.load();
-    }
+    storageService.load();
+  }
 
-    public LinkService getLinkService() {
-        return linkService;
-    }
+  public LinkService getLinkService() {
+    return linkService;
+  }
 
-    public UserService getUserService() {
-        return userService;
-    }
+  public UserService getUserService() {
+    return userService;
+  }
 
-    public SessionService getSessionService() {
-        return sessionService;
-    }
+  public SessionService getSessionService() {
+    return sessionService;
+  }
 
-    public StorageService getStorageService() {
-        return storageService;
-    }
+  public StorageService getStorageService() {
+    return storageService;
+  }
 
-    public LinkCleanupService getLinkCleanupService() {
-        return linkCleanupService;
-    }
+  public LinkCleanupService getLinkCleanupService() {
+    return linkCleanupService;
+  }
 
-    public BrowserUtil getBrowserUtil() {
-        return browserUtil;
-    }
+  public BrowserUtil getBrowserUtil() {
+    return browserUtil;
+  }
 
-    public AppConfig getConfig() {
-        return config;
-    }
+  public AppConfig getConfig() {
+    return config;
+  }
 }

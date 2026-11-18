@@ -5,22 +5,21 @@ import java.util.UUID;
 
 public class User {
 
-    private UUID id;
-    private LocalDateTime createdAt;
+  private UUID id;
+  private LocalDateTime createdAt;
 
-    public User() {
-    }
+  public User() {}
 
-    public User(UUID id, LocalDateTime createdAt) {
-        this.id = id;
-        this.createdAt = createdAt;
-    }
+  public User(UUID id, LocalDateTime createdAt) {
+    this.id = id;
+    this.createdAt = createdAt;
+  }
 
-    public UUID getId() {
-        return id;
-    }
+  public UUID getId() {
+    return id;
+  }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
+  }
 }

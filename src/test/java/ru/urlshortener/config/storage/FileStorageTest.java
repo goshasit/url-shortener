@@ -1,70 +1,62 @@
-
 package ru.urlshortener.storage;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import ru.urlshortener.model.ShortLink;
 import ru.urlshortener.model.User;
 
-import java.nio.file.Path;
-import java.time.LocalDateTime;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class FileStorageTest {
 
-    @TempDir
-    Path tempDir;
+  @TempDir Path tempDir;
 
-    @Test
-    void shouldSaveAndLoadData() {
-        Path file = tempDir.resolve("storage.json");
-        FileStorage storage = new FileStorage(file);
+  @Test
+  void shouldSaveAndLoadData() {
+    Path file = tempDir.resolve("storage.json");
+    FileStorage storage = new FileStorage(file);
 
-        UUID userId = UUID.randomUUID();
-        LocalDateTime now = LocalDateTime.now();
+    UUID userId = UUID.randomUUID();
+    LocalDateTime now = LocalDateTime.now();
 
-        StorageData original = new StorageData();
+    StorageData original = new StorageData();
 
-        original.getUsers().add(new User(userId, now));
+    original.getUsers().add(new User(userId, now));
 
-        original.getLinks().add(
-                new ShortLink(
-                        UUID.randomUUID(),
-                        userId,
-                        "https://example.com",
-                        "abc123",
-                        10,
-                        now,
-                        now.plusHours(24)
-                )
-        );
-
-        storage.save(original);
-
-        StorageData loaded = storage.load();
-
-        assertEquals(1, loaded.getUsers().size());
-        assertEquals(1, loaded.getLinks().size());
-
-        assertEquals(userId, loaded.getUsers().get(0).getId());
-
-        assertEquals(
+    original
+        .getLinks()
+        .add(
+            new ShortLink(
+                UUID.randomUUID(),
+                userId,
+                "https://example.com",
+                "abc123",
+                10,
                 now,
-                loaded.getLinks().get(0).getCreatedAt()
-        );
-    }
+                now.plusHours(24)));
 
-    @Test
-    void shouldReturnEmptyDataWhenFileDoesNotExist() {
-        FileStorage storage = new FileStorage(
-                tempDir.resolve("missing.json")
-        );
+    storage.save(original);
 
-        StorageData data = storage.load();
+    StorageData loaded = storage.load();
 
-        assertTrue(data.getUsers().isEmpty());
-        assertTrue(data.getLinks().isEmpty());
-    }
+    assertEquals(1, loaded.getUsers().size());
+    assertEquals(1, loaded.getLinks().size());
+
+    assertEquals(userId, loaded.getUsers().get(0).getId());
+
+    assertEquals(now, loaded.getLinks().get(0).getCreatedAt());
+  }
+
+  @Test
+  void shouldReturnEmptyDataWhenFileDoesNotExist() {
+    FileStorage storage = new FileStorage(tempDir.resolve("missing.json"));
+
+    StorageData data = storage.load();
+
+    assertTrue(data.getUsers().isEmpty());
+    assertTrue(data.getLinks().isEmpty());
+  }
 }

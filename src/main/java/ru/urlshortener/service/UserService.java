@@ -1,38 +1,33 @@
 package ru.urlshortener.service;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
 import ru.urlshortener.model.User;
 import ru.urlshortener.repository.UserRepository;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
 public class UserService {
 
-    private final UserRepository userRepository;
+  private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+  public UserService(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
-    public User createUser() {
-        User user = new User(
-                UUID.randomUUID(),
-                LocalDateTime.now()
-        );
+  public User createUser() {
+    User user = new User(UUID.randomUUID(), LocalDateTime.now());
 
-        userRepository.save(user);
+    userRepository.save(user);
 
-        return user;
-    }
+    return user;
+  }
 
-    public User getUser(UUID id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "Пользователь не найден: " + id
-                ));
-    }
+  public User getUser(UUID id) {
+    return userRepository
+        .findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден: " + id));
+  }
 
-    public boolean userExists(UUID id) {
-        return userRepository.existsById(id);
-    }
+  public boolean userExists(UUID id) {
+    return userRepository.existsById(id);
+  }
 }

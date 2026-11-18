@@ -7,33 +7,30 @@ import ru.urlshortener.storage.StorageData;
 
 public class StorageService {
 
-    private final FileStorage fileStorage;
-    private final UserRepository userRepository;
-    private final LinkRepository linkRepository;
+  private final FileStorage fileStorage;
+  private final UserRepository userRepository;
+  private final LinkRepository linkRepository;
 
-    public StorageService(
-            FileStorage fileStorage,
-            UserRepository userRepository,
-            LinkRepository linkRepository
-    ) {
-        this.fileStorage = fileStorage;
-        this.userRepository = userRepository;
-        this.linkRepository = linkRepository;
-    }
+  public StorageService(
+      FileStorage fileStorage, UserRepository userRepository, LinkRepository linkRepository) {
+    this.fileStorage = fileStorage;
+    this.userRepository = userRepository;
+    this.linkRepository = linkRepository;
+  }
 
-    public void load() {
-        StorageData data = fileStorage.load();
+  public void load() {
+    StorageData data = fileStorage.load();
 
-        userRepository.saveAll(data.getUsers());
-        linkRepository.saveAll(data.getLinks());
-    }
+    userRepository.saveAll(data.getUsers());
+    linkRepository.saveAll(data.getLinks());
+  }
 
-    public void save() {
-        StorageData data = new StorageData();
+  public void save() {
+    StorageData data = new StorageData();
 
-        data.getUsers().addAll(userRepository.findAll());
-        data.getLinks().addAll(linkRepository.findAll());
+    data.getUsers().addAll(userRepository.findAll());
+    data.getLinks().addAll(linkRepository.findAll());
 
-        fileStorage.save(data);
-    }
+    fileStorage.save(data);
+  }
 }
