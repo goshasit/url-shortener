@@ -1,4 +1,4 @@
-package ru.urlshortener.config;
+package ru.urlshortener;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -5,7 +5,7 @@ import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.UUID;
-import ru.urlshortener.config.AppConfig;
+import ru.urlshortener.AppConfig;
 import ru.urlshortener.model.ShortLink;
 import ru.urlshortener.repository.LinkRepository;
 import ru.urlshortener.repository.UserRepository;

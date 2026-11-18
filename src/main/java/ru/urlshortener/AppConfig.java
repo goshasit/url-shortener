@@ -1,4 +1,4 @@
-package ru.urlshortener.config;
+package ru.urlshortener;
 
 import java.io.IOException;
 import java.io.InputStream;

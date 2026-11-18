@@ -1,6 +1,5 @@
 package ru.urlshortener;
 
-import ru.urlshortener.config.AppConfig;
 import ru.urlshortener.repository.LinkRepository;
 import ru.urlshortener.repository.UserRepository;
 import ru.urlshortener.service.LinkCleanupService;

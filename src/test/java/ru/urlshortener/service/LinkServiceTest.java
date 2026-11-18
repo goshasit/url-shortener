@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.urlshortener.config.AppConfig;
+import ru.urlshortener.AppConfig;
 import ru.urlshortener.model.ShortLink;
 import ru.urlshortener.model.User;
 import ru.urlshortener.repository.LinkRepository;
